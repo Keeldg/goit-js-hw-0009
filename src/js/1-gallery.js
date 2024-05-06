@@ -68,46 +68,29 @@ const images = [
   },
 ];
 
-const list = document.querySelector('.gallery');
+const gallery = document.querySelector('.gallery');
+const fragment = document.createDocumentFragment();
+images.forEach(image => {
+  const li = document.createElement('li');
+  li.classList.add('gallery-item');
+  const a = document.createElement('a');
+  a.classList.add('gallery-link');
+  a.href = image.original;
 
-const elements = images
-  .map(image => {
-    return `<li><img class="gallery-item" src="${image.url}" alt="${image.alt}"></li>`;
-  })
-  .join('');
+  const img = document.createElement('img');
+  img.classList.add('gallery-image');
+  img.src = image.preview;
+  img.setAttribute('data-source', image.original);
+  img.alt = image.description;
 
-list.insertAdjacentHTML('afterbegin', elements);
+  a.appendChild(img);
+  li.appendChild(a);
+  fragment.appendChild(li);
+});
+gallery.appendChild(fragment);
 
 const lightbox = new SimpleLightbox('.gallery a', {
-  captionDelay: 250,
+  nav: true,
   captionsData: 'alt',
+  captionDelay: 250,
 });
-
-// import SimpleLightbox from "simplelightbox";
-// // Додатковий імпорт стилів
-// import "simplelightbox/dist/simple-lightbox.min.css";
-// */
-
-// const galleryContainerEl = document.querySelector('.gallery');
-// const imagesEl = createGalleryImg(galleryItems);
-// galleryContainerEl.insertAdjacentHTML('beforeend', imagesEl);
-
-// function createGalleryImg(item) {
-//   return galleryItems
-//     .map(({ preview, original, description }) => {
-//       return `<ul class="gallery">
-//         <li>
-//  <a class="gallery__item" href="${original}">
-//   <img class="gallery__image" src="${preview}" alt="${description}" />
-// </a>
-// </li>
-// </ul>`;
-//     })
-//     .join('');
-// }
-
-// const lightbox = new SimpleLightbox('.gallery a', {
-//   captionsData: 'alt',
-//   captionDelay: 250,
-
-// });
