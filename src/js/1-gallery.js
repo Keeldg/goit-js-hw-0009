@@ -1,3 +1,7 @@
+import SimpleLightbox from 'simpleLightbox';
+
+import 'simplelightbox/dist/simple-lightbox.min.css';
+
 const images = [
   {
     preview:
@@ -64,35 +68,46 @@ const images = [
   },
 ];
 
-const gallery = document.querySelector('.gallery');
-const fragment = document.createDocumentFragment();
-images.forEach(image => {
-  const li = document.createElement('li');
-  li.classList.add('gallery-item');
-  const a = document.createElement('a');
-  a.classList.add('gallery-link');
-  a.href = image.original;
+const list = document.querySelector('.gallery');
 
-  const img = document.createElement('img');
-  img.classList.add('gallery-image');
-  img.src = image.preview;
-  img.setAttribute('data-source', image.original);
-  img.alt = image.description;
+const elements = images
+  .map(image => {
+    return `<li><img class="gallery-item" src="${image.url}" alt="${image.alt}"></li>`;
+  })
+  .join('');
 
-  li.appendChild(img);
-  fragment.appendChild(li);
+list.insertAdjacentHTML('afterbegin', elements);
+
+const lightbox = new SimpleLightbox('.gallery a', {
+  captionDelay: 250,
+  captionsData: 'alt',
 });
-gallery.appendChild(fragment);
 
-// gallery.addEventListener('click', e => {
-//   e.preventDefault();
+// import SimpleLightbox from "simplelightbox";
+// // Додатковий імпорт стилів
+// import "simplelightbox/dist/simple-lightbox.min.css";
+// */
 
-//   if (e.target.nodeName === 'IMG') {
-//     const largeImageSrc = e.target.dataset.source;
-//     const lightbox = basicLightbox.create(
-//       `<img src="${largeImageSrc}" alt="Large Image">`
-//     );
-//     console.log(largeImageSrc);
-//     lightbox.show();
-//   }
+// const galleryContainerEl = document.querySelector('.gallery');
+// const imagesEl = createGalleryImg(galleryItems);
+// galleryContainerEl.insertAdjacentHTML('beforeend', imagesEl);
+
+// function createGalleryImg(item) {
+//   return galleryItems
+//     .map(({ preview, original, description }) => {
+//       return `<ul class="gallery">
+//         <li>
+//  <a class="gallery__item" href="${original}">
+//   <img class="gallery__image" src="${preview}" alt="${description}" />
+// </a>
+// </li>
+// </ul>`;
+//     })
+//     .join('');
+// }
+
+// const lightbox = new SimpleLightbox('.gallery a', {
+//   captionsData: 'alt',
+//   captionDelay: 250,
+
 // });
